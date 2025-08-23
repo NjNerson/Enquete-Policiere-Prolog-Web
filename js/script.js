@@ -19,7 +19,7 @@ function startIntroAnimation() {
   setTimeout(function () {
     mainInterface.classList.add("visible");
     document.body.style.overflow = "auto";
-  }, 800);
+  }, 1000);
 }
 
 // Fonction d'enquete
