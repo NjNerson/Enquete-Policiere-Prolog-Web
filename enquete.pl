@@ -96,7 +96,7 @@ crime_list(List) :-
 %-----------------------------------
 % MAIN : lance le serveur web
 %-----------------------------------
-main :-
+main_web :-
     format('Serveur Prolog lancé sur http://localhost:8080/~n'),
     http_server(http_dispatch, [port(8080)]).
 
@@ -106,3 +106,38 @@ main :-
 stop :-
     http_stop_server(8080, []). 
 
+
+%---------------------------------------------
+% MAIN CONSOLE : lance le projet sur console
+%---------------------------------------------
+main:-
+    % current_input(Input),
+    % read(Input,crime(Suspect,CrimeType)),
+    % ( is_guilty(Suspect,CrimeType) ->
+    %     writeln(guilty)
+    %     ; writeln(not_guilty)
+    % ),
+    % halt.
+    %VERSION AMELIOR2 POUR UX
+    writeln('=== Enquête policière - Mode console ==='),
+    writeln('Entrez le suspect et le type de crime au format : crime(suspect, crime).'),
+    writeln('Exemple : crime(john, vol).'),
+    writeln('Tapez end. pour quitter.'),
+    repeat,
+        write('> '),
+        read(Input),
+        ( Input == end ->
+            writeln('Fin de l\'enquête.'),
+            !
+        ;
+            ( Input = crime(Suspect, CrimeType) ->
+                ( is_guilty(Suspect, CrimeType) ->
+                    writeln('GUILTY')
+                ;
+                    writeln('NOT GUILTY')
+                )
+            ;
+                writeln('Format invalide, réessayez.')
+            ),
+            fail
+    ).
