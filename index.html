@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enquete Policiere - M1 IG G1</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- INTRO  -->
+    <div class="intro-overlay" id="introOverlay"></div>
+
+    <!-- INTERFACE PRINCIPALE -->
+    <header class="header">
+      <div class="header-content">
+        <div class="fbi-logo">
+          <i class="fas fa-shield-alt icone-title"></i>
+          Enquete Policiere - Projet IA M1 IG G1
+        </div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <div class="panel">
+        <h2 class="panel-title">
+          <i class="fas fa-user-secret"></i>
+          Analyse des Suspects
+        </h2>
+
+        <div class="form-group">
+          <label for="suspect">
+            <i class="fas fa-user"></i>
+            Suspect à analyser:
+          </label>
+          <select id="suspect">
+            <option value="">-- Sélectionner un suspect --</option>
+            <option value="john">John</option>
+            <option value="mary">Mary</option>
+            <option value="alice">Alice</option>
+            <option value="bruno">Bruno</option>
+            <option value="sophie">Sophie</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="crime">
+            <i class="fas fa-gavel"></i>
+            Type de crime:
+          </label>
+          <select id="crime">
+            <option value="">-- Sélectionner un crime --</option>
+            <option value="assassinat">Assassinat</option>
+            <option value="escroquerie">Escroquerie</option>
+            <option value="vol">Vol</option>
+          </select>
+        </div>
+
+        <button class="btn-analyze" onclick="analyzeCase()">
+          <i class="fas fa-search"></i>
+          Lancer l'analyse
+        </button>
+      </div>
+
+      <!-- Panel des indicateurs de membre de notre groupe - GROUPE 4 M1 IG G1 -->
+      <div class="panel">
+        <h2 class="panel-title">
+          <i class="fas fa-user-tie"></i>
+          Equipe responsable d'enquête (GROUPE 4)
+        </h2>
+
+        <div class="status-indicators">
+          <div class="status-item">
+            <span>Fenohery - 1187H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Faratiana - 1195H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Wendi - 1205H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Fiderana - 1217H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Tiana - 1226H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Nerson - 1229H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Jemima - 1244H-F</span>
+          </div>
+          <div class="status-item">
+            <span>Tsiory - 1262H-F</span>
+          </div>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="loading-text">Analyse en cours...</div>
+          <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Résultats -->
+      <div class="panel results">
+        <h2 class="panel-title">
+          <i class="fas fa-clipboard-check"></i>
+          Résultats de l'enquête
+        </h2>
+
+        <div id="result" class="result-display" style="display: none">
+          <div id="resultText"></div>
+        </div>
+
+        <div
+          id="errorMessage"
+          class="error-message"
+          style="display: none"
+        ></div>
+      </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>
