@@ -211,6 +211,23 @@ button:active {
   }
 }
 
+.evidence-list {
+  margin-top: 20px;
+  text-align: left;
+  list-style: none;
+  padding-left: 0;
+}
+
+.evidence-list li {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #00ff00;
+}
+
 /* Loading animation */
 .loading {
   display: none;
