@@ -1,3 +1,4 @@
+:- set_prolog_flag(encoding, utf8).
 %-----------------------------------
 % Types de crime
 %-----------------------------------
@@ -60,6 +61,28 @@ is_guilty(Suspect, escroquerie) :-
     ; (has_bank_transaction(Suspect, escroquerie), owns_fake_identity(Suspect, escroquerie))).
 
 %-----------------------------------
+% Collecte des preuves
+%-----------------------------------
+preuves(Suspect, Crime, Preuves) :-
+    findall(Preuve, preuve(Suspect, Crime, Preuve), Preuves).
+
+% Petites règles pour détecter chaque type de preuve
+preuve(Suspect, Crime, 'Mobile clair') :-
+    has_motive(Suspect, Crime).
+preuve(Suspect, Crime, 'Presence pres de la scene du crime') :-
+    was_near_crime_scene(Suspect, Crime).
+preuve(Suspect, Crime, 'Empreintes sur l arme du crime') :-
+    has_fingerprint_on_weapon(Suspect, Crime).
+preuve(Suspect, Crime, 'Identification par temoin oculaire') :-
+    eyewitness_identification(Suspect, Crime).
+preuve(Suspect, Crime, 'Transactions bancaires suspectes') :-
+    has_bank_transaction(Suspect, Crime).
+preuve(Suspect, Crime, 'Fausse identite') :-
+    owns_fake_identity(Suspect, Crime).
+
+
+
+%-----------------------------------
 % HTTP Web Server
 %-----------------------------------
 :- use_module(library(http/thread_httpd)).
@@ -82,7 +105,8 @@ check_crime(Request) :-
          atom_string(Suspect, Dict.get(suspect)),
         atom_string(Crime, Dict.get(crime)),
         (is_guilty(Suspect, Crime) -> Result = "GUILTY" ; Result = "NOT GUILTY"),
-        reply_json_dict(_{result: Result})
+        preuves(Suspect, Crime, Preuves),
+        reply_json_dict(_{result: Result, preuves: Preuves},[content_type('application/json; charset=UTF-8')])
     ).
 
 % Fonction pour récupérer la liste des suspects
@@ -92,6 +116,7 @@ suspect_list(List) :-
 % Fonction pour récupérer la liste des crimes
 crime_list(List) :-
     findall(Type, crime_type(Type), List).
+
 
 %-----------------------------------
 % MAIN : lance le serveur web
