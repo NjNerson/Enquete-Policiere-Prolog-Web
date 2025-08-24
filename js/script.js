@@ -16,10 +16,12 @@ function startIntroAnimation() {
 
   introOverlay.classList.add("slide-up");
 
-  setTimeout(function () {
-    mainInterface.classList.add("visible");
-    document.body.style.overflow = "auto";
-  }, 1000);
+  if (mainInterface) {
+    setTimeout(function () {
+      mainInterface.classList.add("visible");
+      document.body.style.overflow = "auto";
+    }, 1000);
+  }
 }
 
 // Fonction d'enquete
@@ -77,7 +79,7 @@ async function checkCrimeWithProlog(suspect, crime) {
   }
 
   const data = await response.json();
-  return data.result;
+  return data;
 }
 
 // Animation de progression
@@ -102,9 +104,16 @@ function animateProgress() {
 }
 
 // Affichage du résultat
-async function showResult(result, suspect, crime) {
+async function showResult(data, suspect, crime) {
+  const result = data.result;
+  const preuves = data.preuves || [];
+
   const resultDiv = document.getElementById("result");
   const resultText = document.getElementById("resultText");
+  const evidenceList = document.getElementById("evidenceList");
+
+  // Reset de la liste des preuves
+  evidenceList.innerHTML = "";
 
   // Préparation du texte
   const suspectName = suspect.charAt(0).toUpperCase() + suspect.slice(1);
@@ -122,9 +131,23 @@ async function showResult(result, suspect, crime) {
     className = "result-not-guilty";
   }
 
+  // Ajout des preuves dans la liste
+  if (preuves.length > 0) {
+    preuves.forEach((p) => {
+      const li = document.createElement("li");
+      li.textContent = p;
+      evidenceList.appendChild(li);
+    });
+  } else {
+    const li = document.createElement("li");
+    li.textContent = "Aucune preuve trouvée.";
+    evidenceList.appendChild(li);
+  }
+
   // Animation d'apparition
   resultDiv.style.display = "block";
   resultDiv.className = "result-display " + className;
+  resultDiv.scrollIntoView({ behavior: "smooth", block: "center" });
 
   // Effet de frappe
   await typewriterEffect(resultText, displayText, 50);
